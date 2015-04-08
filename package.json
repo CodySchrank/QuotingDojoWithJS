@@ -1,0 +1,11 @@
+{
+	"name": "quoting_dojo",
+	"description": "Making the quoting dojo using mean",
+	"dependencies": {
+		"ejs": "*",
+		"body-parser": "*",
+		"express": "*",
+		"mongoose": "*",
+		"socket.io": "*"
+	}
+}

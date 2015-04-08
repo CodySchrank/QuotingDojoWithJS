@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Quotes</title>
+	<link rel="stylesheet" type="text/css" href="/skeleton/normalize.css">
+	<link rel="stylesheet" type="text/css" href="/skeleton/skeleton.css">
+	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			var socket = io.connect();
+			$(document.body).on("click",'.liek', function(){
+				console.log("happened");
+				socket.emit("new_like",{id: $(this).next().val()});
+			})
+			socket.on("updated_like_count",function(quotes){
+				var q = quotes.quotes;
+				var quote = q.length;
+				$('.quotes').html("");
+				console.log(q);
+				for(var quote in q) {
+					console.log("ran");
+					var body = '<p><button class="liek">^' + q[quote].like_count + '</button><input type="hidden" value="' + q[quote]._id + '">"' + q[quote].quote + '"<br>- ' + q[quote].name +'</p>';
+					$('.quotes').append(body);
+				}
+			})
+		});
+	</script>
+</head>
+<body>
+	<div class="container">
+		<h1>Quotes</h1>
+		<div class="quotes">
+		<%
+
+		for(quote in quotes) { %>
+			<p><button class="liek">^ <%= quotes[quote].like_count %></button>
+			<input type="hidden" value="<%= quotes[quote]._id %>">
+			"<%= quotes[quote].quote %>"
+			<br>	
+			- <%= quotes[quote].name %>
+			</p>
+		<% }%>
+		</div>
+		<a href="/"><button>Add Another Quote</button></a>
+	</div>
+</body>
+</html>
